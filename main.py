@@ -1,3 +1,20 @@
+import os
+import sys
+import subprocess
+
+# Automatically install required packages if missing
+def install(package):
+    subprocess.check_call([sys.executable, "-m", "pip", "install", package])
+
+required = [
+    "streamlit",
+    "networkx",
+    "pyvis",
+    "python-dotenv",
+    "gradio",
+    "google-genai",
+]
+
 import streamlit as st
 import networkx as nx
 from pyvis.network import Network
