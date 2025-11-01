@@ -1,3 +1,43 @@
+import sys
+import subprocess
+import importlib
+
+# --- Check and auto-install required packages ---
+required_packages = ["networkx", "pyvis", "streamlit"]
+for pkg in required_packages:
+    try:
+        importlib.import_module(pkg)
+    except ImportError:
+        print(f"⚠️ Missing {pkg}, installing...")
+        subprocess.check_call([sys.executable, "-m", "pip", "install", pkg])
+
+# --- Print environment info ---
+import os
+print("\n--- Environment Information ---")
+print("Python executable:", sys.executable)
+print("Working directory:", os.getcwd())
+print("Installed packages:")
+subprocess.run([sys.executable, "-m", "pip", "list"])
+print("--------------------------------\n")
+
+# --- Continue with your actual Streamlit app ---
+import streamlit as st
+import networkx as nx
+from pyvis.network import Network
+
+st.title("NetworkX + PyVis Test")
+
+G = nx.Graph()
+G.add_nodes_from(["A", "B", "C"])
+G.add_edges_from([("A", "B"), ("B", "C")])
+
+net = Network(notebook=False)
+net.from_nx(G)
+net.save_graph("graph.html")
+
+st.markdown("### Graph rendered to `graph.html`")
+st.markdown("Open that file to view the network.")
+
 import os
 import sys
 import subprocess
