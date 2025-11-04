@@ -1,3 +1,35 @@
+import streamlit as st
+
+def get_api_key():
+    # if we already entered a key in this session, reuse it
+    if "api_key" not in st.session_state:
+        st.session_state.api_key = ""
+
+    st.sidebar.subheader("🔐 API key for this session")
+    key = st.sidebar.text_input(
+        "Enter your API key",
+        type="password",
+        value=st.session_state.api_key,
+        help="This key is only stored in session memory and will be gone when you close the tab.",
+    )
+
+    # update session memory
+    st.session_state.api_key = key
+
+    return key
+
+# --- use it somewhere below ---
+api_key = get_api_key()
+
+if not api_key:
+    st.warning("Please enter an API key in the sidebar to continue in online form.")
+else:
+    st.success("API key loaded for this session.")
+    # call your AI here, e.g.:
+    # response = call_ai(api_key, prompt)
+
+
+
 import sys
 import subprocess
 import importlib
